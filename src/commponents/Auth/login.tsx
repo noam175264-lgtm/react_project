@@ -10,17 +10,13 @@ import { loginSuccess } from "../../store/authSlice";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 import { showLoading, closeAlert, showSuccess as showAlertSuccess, showError } from "../../utils/sweetAlertConfig";
-interface IFormInput {
-  name: string
-  email: string
-  password: string
-}
+import type { LoginFormInput } from "../../types";
 const Login: React.FC = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const [massege, setMassege] = useState("");
   
-  const { control, handleSubmit, formState: { errors } } = useForm<IFormInput>({
+  const { control, handleSubmit, formState: { errors } } = useForm<LoginFormInput>({
     defaultValues: {
       email: "",
       password: ""
@@ -28,7 +24,7 @@ const Login: React.FC = () => {
   })
 
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  const onSubmit: SubmitHandler<LoginFormInput> = async (data) => {
     try {
       showLoading('Logging in...', 'Please wait');
       const res = await LoginService(data.email, data.password)

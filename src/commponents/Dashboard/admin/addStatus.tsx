@@ -6,33 +6,22 @@ import { Button, Typography, Stack, Chip, Box, Divider, Paper } from "@mui/mater
 import Input from "../../inputs";
 import SourceIcon from '@mui/icons-material/Source';
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { showLoading, closeAlert, showSuccess, showError } from "../../../utils/sweetAlertConfig";
-
-interface Status {
-    id: Number,
-    name: string
-}
+import type { Status } from "../../../types";
 
 interface AddStatusProps {
-    onClose?: () => void;
+  onClose?: () => void;
 }
 
 const AddStatus = ({ onClose }: AddStatusProps) => {
     const statuses = useSelector((state: RootState) => state.data.statuses)
-    const formData = new FormData()
-    const [statusState, setstatusState] = useState<Status[]>([])
-    
-    useEffect(() => {
-        setstatusState(statuses);
-    }, [statuses]);
-    
     const fetcher = useFetcher()
     const dispatch = useDispatch()
-    
+
     const { control, handleSubmit, formState: { errors }, reset } = useForm<Status>({
         defaultValues: {
-            id: "",
+            id: 0,
             name: ""
         },
     })
@@ -40,22 +29,31 @@ const AddStatus = ({ onClose }: AddStatusProps) => {
     const onSubmit = async (data: Status) => {
         try {
             showLoading('Adding status...', 'Please wait');
+            const formData = new FormData()
             formData.append("name", data.name)
-            setstatusState([...statusState, { id: statuses.length + 1, name: data.name as string }])
-            fetcher.submit(formData, { method: "post", action: "/addStatus" });
-            dispatch(setStatuses([...statuses, { id: statuses.length + 1, name: data.name as string }]))
-            
-            closeAlert();
-            showSuccess('Status added successfully!', 'Good job!');
-            
-            reset();
-            if (onClose) onClose();
+
+            const response = await fetcher.submit(formData, {
+                method: "post",
+                action: "/addStatus"
+            });
         } catch (error) {
             closeAlert();
             showError('Failed to add status. Please try again.', 'Oops...');
         }
     }
-
+    useEffect(() => {
+        if (fetcher.state === "idle" && fetcher.data) {
+            closeAlert();
+            if (fetcher.data?.id) {  
+                dispatch(setStatuses([...statuses, fetcher.data]));
+                showSuccess('Status added successfully!', 'Good job!');
+            } else if (fetcher.data?.error) {
+                showError(fetcher.data.error, 'Oops...');
+            }
+            reset();
+            if (onClose) onClose();
+        }
+    }, [fetcher.state, fetcher.data]);
     return (
         <Box sx={{ py: 2 }}>
             <Paper elevation={0} sx={{ p: 2, mb: 3, bgcolor: 'grey.50', borderRadius: 2 }}>
@@ -63,11 +61,11 @@ const AddStatus = ({ onClose }: AddStatusProps) => {
                     Existing Statuses
                 </Typography>
                 <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                    {statusState.map((p: Status, index) => (
-                        <Chip 
+                    {statuses.map((p: Status, index) => (
+                        <Chip
                             key={index}
-                            label={p.name} 
-                            color="primary" 
+                            label={p.name}
+                            color="primary"
                             variant="outlined"
                             size="small"
                         />
@@ -82,7 +80,7 @@ const AddStatus = ({ onClose }: AddStatusProps) => {
                     <Typography variant="subtitle1" fontWeight={600}>
                         Add New Status
                     </Typography>
-                    
+
                     <Input
                         name="name"
                         type="string"
@@ -91,7 +89,7 @@ const AddStatus = ({ onClose }: AddStatusProps) => {
                         control={control}
                         errors={errors}
                     />
-                    
+
                     <Button
                         type="submit"
                         variant="contained"

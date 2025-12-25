@@ -1,14 +1,14 @@
 import { Box, FormControl, InputLabel, MenuItem, Select, Chip, type SelectChangeEvent } from "@mui/material";
 import { getColorByName } from "../../utils/colorHelper";
 
-interface Selestorprop {
-    name: string,
-    data: any[],
-    func: (event: SelectChangeEvent) => void,
-    currentValue?: string
+interface SelectorProps {
+  name: string;
+  data: any[];
+  func: (event: SelectChangeEvent) => void;
+  currentValue?: string;
 }
 
-const Selector: React.FC<Selestorprop> = (params: Selestorprop) => {
+const Selector: React.FC<SelectorProps> = (params: SelectorProps) => {
     return (
         <Box>
             <FormControl fullWidth size="medium">

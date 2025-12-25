@@ -1,11 +1,11 @@
 import { Box, Card, CardContent, Stack, Typography, Avatar, Chip } from "@mui/material";
-import type { User } from "./dashboard_ad";
+import type { User } from "../../../types";
 
 interface ShowUsersprop {
     users: User[]
 }
 
-const ShowUsers = (params: ShowUsersprop) => {
+const ShowUsers = (params: ShowUsersprop) => {    
     return (
         <Box sx={{ py: 2 }}>
             <Stack spacing={2}>
@@ -59,7 +59,7 @@ const ShowUsers = (params: ShowUsersprop) => {
                                     </Typography>
                                     
                                     <Typography variant="caption" color="text.secondary" sx={{ mt: 0.5, display: 'block' }}>
-                                        Created: {new Date(user.created_at).toLocaleDateString()}
+                                        Created: {user.created_at ? new Date(user.created_at).toLocaleDateString() : 'N/A'}
                                     </Typography>
                                 </Box>
                             </Stack>

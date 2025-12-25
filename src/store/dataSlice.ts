@@ -1,10 +1,5 @@
 import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
-
-interface DataState {
-    users: any[];      
-    priorities: any[];
-    statuses: any[];
-}
+import type { DataState } from "../types";
 
 const initialState: DataState = {
     users: [],
@@ -16,9 +11,6 @@ const dataSlice = createSlice({
     name: 'data',
     initialState,
     reducers: {
-        setUsers: (state, action: PayloadAction<any[]>) => {
-            state.users = action.payload;
-        },
         setPriorities: (state, action: PayloadAction<any[]>) => {
             state.priorities = action.payload;
         },
@@ -28,7 +20,7 @@ const dataSlice = createSlice({
     },
 });
 
-export const { setUsers, setPriorities, setStatuses } = dataSlice.actions;
+export const { setPriorities, setStatuses } = dataSlice.actions;
 export default dataSlice.reducer;
 
 

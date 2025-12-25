@@ -16,19 +16,12 @@ import Input from "../inputs";
 import {  RegisterService } from "../../service/authService";
 import { useNavigate } from "react-router-dom";
 import { showLoading, closeAlert, showSuccess as showAlertSuccess, showError } from "../../utils/sweetAlertConfig";
-
-
-
-interface IFormInput {
-  name: string
-  email: string
-  password: string
-}
+import type { RegisterFormInput } from "../../types";
 const Register: React.FC = () => {
   const navigate = useNavigate();
   const [massege, setMassege] = useState("");
 
-  const { control, handleSubmit, formState: { errors } } = useForm<IFormInput>({
+  const { control, handleSubmit, formState: { errors } } = useForm<RegisterFormInput>({
     defaultValues: {
       name: "",
       email: "",
@@ -36,7 +29,7 @@ const Register: React.FC = () => {
     },
   })
 
-  const onSubmit: SubmitHandler<IFormInput> = async (data) => {
+  const onSubmit: SubmitHandler<RegisterFormInput> = async (data) => {
     try {
       showLoading('Creating account...', 'Please wait');
       const response = await RegisterService(data.name, data.email, data.password);

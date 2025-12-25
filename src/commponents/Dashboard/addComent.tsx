@@ -10,15 +10,7 @@ import CommentIcon from '@mui/icons-material/Comment';
 import CloseIcon from '@mui/icons-material/Close';
 import CheckCircleIcon from '@mui/icons-material/CheckCircle';
 import { showLoading, closeAlert, showSuccess as showAlertSuccess } from "../../utils/sweetAlertConfig";
-interface Comment {
-    id: number;
-    ticket_id: number;
-    author_id: number;
-    content: string;
-    author_name: string;
-    author_email: string;
-    created_at: string;
-}
+import type { Comment } from "../../types";
 const AddComment = () => {
     const [showSuccess, setShowSuccess] = useState(false);
     const [open, setOpen] = useState(false);
@@ -145,7 +137,6 @@ const AddComment = () => {
                 </form>
             </Dialog>
 
-            {/* Success Notification */}
             <Snackbar
                 open={showSuccess}
                 autoHideDuration={4000}

@@ -38,7 +38,6 @@ const CreateTicketDialog: React.FC = () => {
   });
 
   const onSubmit = (data: IFormInput) => {
-    console.log(data);
     setOpen(false);
     showLoading('Creating ticket...', 'Please wait');
     const formData = new FormData();

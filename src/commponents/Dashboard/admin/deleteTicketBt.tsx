@@ -11,14 +11,11 @@ interface DeleteTicketprop {
 const DeleteTicketBt: React.FC<DeleteTicketprop> = (params: DeleteTicketprop) => {
     const fetcher = useFetcher();
 
-    // מעקב אחרי תוצאת המחיקה
     useEffect(() => {
         if (fetcher.state === "idle" && fetcher.data) {
             if (fetcher.data.error) {
-                // שגיאה - לא הצליח למחוק
                 showError(fetcher.data.error, 'Oops...');
             } else {
-                // הצלחה - נמחק
                 showSuccess('Ticket deleted successfully!', 'Deleted!');
             }
         }
@@ -28,7 +25,6 @@ const DeleteTicketBt: React.FC<DeleteTicketprop> = (params: DeleteTicketprop) =>
         const result = await confirmDelete('this ticket');
         
         if (result.isConfirmed) {
-            // רק שלח - אל תציג הודעות!
             fetcher.submit(null, { 
                 method: "DELETE", 
                 action: `/DeleteTicketBt/${params.ticketId}` 
@@ -36,7 +32,6 @@ const DeleteTicketBt: React.FC<DeleteTicketprop> = (params: DeleteTicketprop) =>
         }
     };
 
-    // אם בתהליך מחיקה - הצג spinner
     if (fetcher.state === "submitting" || fetcher.state === "loading") {
         return (
             <IconButton disabled size="small">

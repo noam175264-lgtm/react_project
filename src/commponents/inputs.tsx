@@ -3,12 +3,12 @@ import type React from "react";
 import { Controller } from "react-hook-form";
 
 interface InputProps {
-    name: string;
-    type: string;
-    components: React.ReactNode;
-    pattern: string
-    control: any;
-    errors: any;
+  name: string;
+  type: string;
+  components: React.ReactNode;
+  pattern: string;
+  control: any;
+  errors: any;
 }
 
 const Input: React.FC<InputProps> = ({ name, type, components, pattern, control, errors }) => {

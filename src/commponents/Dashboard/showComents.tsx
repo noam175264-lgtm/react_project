@@ -11,28 +11,15 @@ import { useLoaderData, useNavigate } from 'react-router-dom';
 import AddComment from './addComent';
 import type { RootState } from '../../store/store';
 import { useSelector } from 'react-redux';
-
-interface Comment {
-  id: number;
-  ticket_id: number;
-  author_id: number;
-  content: string;
-  author_name: string;
-  author_email: string;
-  created_at: string;
-}
+import type { Comment } from '../../types';
 
 export const ShowComments = () => {
   const comments: Comment[] = useLoaderData() as Comment[];
   const navigate = useNavigate();
   const { user } = useSelector((state: RootState) => state.auth);
   
-  console.log("Comments data:", comments);
-  console.log("Current user:", user);
-
-  // 👇 בדוק לפי email במקום id
+  
   const isMyComment = (comment: Comment) => {
-    console.log('Checking:', comment.author_email, '===', user?.email);
     return comment.author_email === user?.email;
   };
 

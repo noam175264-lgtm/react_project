@@ -1,5 +1,5 @@
 import { useFetcher, useRevalidator } from "react-router-dom";
-import { Button, Typography, Stack, Box, Grid, FormControl, InputLabel, Select, MenuItem, FormHelperText, ListItemIcon, ListItemText, CircularProgress } from "@mui/material";
+import { Button, Typography, Stack, Box, FormControl, InputLabel, Select, MenuItem, FormHelperText, ListItemIcon, ListItemText, CircularProgress } from "@mui/material";
 import Input from "../../inputs";
 import PersonIcon from '@mui/icons-material/Person';
 import EmailIcon from '@mui/icons-material/Email';
@@ -10,17 +10,13 @@ import PersonOutlineIcon from '@mui/icons-material/PersonOutline';
 import { useForm, Controller } from "react-hook-form";
 import { showSuccess, showError } from "../../../utils/sweetAlertConfig";
 import { useEffect } from "react";
-
-interface User {
-    name: string,
-    email: string,
-    password: string,
-    role: string
-}
+import type { User } from "../../../types";
+import Grid from '@mui/material/Grid';
 
 interface AddUserProps {
     onClose?: () => void;
 }
+
 
 const AddUser = ({ onClose }: AddUserProps) => {
     const fetcher = useFetcher();
@@ -107,7 +103,7 @@ const AddUser = ({ onClose }: AddUserProps) => {
                         <Grid item xs={12} sm={6}>
                             <Input
                                 name="password"
-                                type="string"
+                                type="password"
                                 components={<LockIcon color="action" />}
                                 pattern="^(?:[A-Za-z]{3,10}|\d{3,10})$"
                                 control={control}

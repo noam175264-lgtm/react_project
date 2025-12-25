@@ -4,7 +4,7 @@ import Register from "./Auth/register";
 import HomePage from "./homePage";
 import Login from "./Auth/login";
 import Role from "./role";
-import { addPririty, addStatus, createTicketAction, deleteTicket, getAllTickets, getAllUsers, setPriority, setStatus } from "../service/ticketService";
+import { addPririty, addStatus, createTicketAction, deleteTicket, getAllTickets, getAllUsers,  setPriority, setStatus } from "../service/ticketService";
 import DashboardC from "./Dashboard/customer/dashboard_c";
 import { addCommentToTicket, getComentsByTicketId } from "../service/comentService";
 import ShowComments from "./Dashboard/showComents";
@@ -12,6 +12,7 @@ import DashboardAg from "./Dashboard/agent/dashboard_ag";
 import DashboardAd from "./Dashboard/admin/dashboard_ad";
 import { addUser } from "../service/userService";
 import About from "./about";
+import NotFound from "../NotFound";
 export const Routes = createBrowserRouter([
   {
     path: "/",
@@ -47,7 +48,7 @@ export const Routes = createBrowserRouter([
       },
       {
         path: "/about",
-        element: <About/>,
+        element: <About />,
       }
       ,
       {
@@ -66,19 +67,22 @@ export const Routes = createBrowserRouter([
         path: "dashboard_ag",
         element: <Role roles={['agent']}><DashboardAg /></Role>,
         loader: getAllTickets,
-      },  
+      },
       {
         id: "dashboardRoot",
         path: 'dashboard_ad',
         element: <Role roles={['admin']}> <DashboardAd /></Role>,
-        loader: getAllTickets,
-        
+        loader: async () => {
+          const tickets = await getAllTickets();
+          return { tickets };
+        },
+
         children: [
           {
             id: "dashboardChild",
             index: true,
-            loader: getAllUsers
-          }
+            loader: getAllUsers,
+          },
         ]
       },
       {
@@ -114,14 +118,18 @@ export const Routes = createBrowserRouter([
         action: addPririty
 
       },
-       {
+      {
         path: 'addUser',
         element: <Role roles={['admin']}></Role>,
         action: addUser
       },
       {
+        path: 'systemManagment',
+        element: <Role roles={['admin']}></Role>,
+      },
+      {
         path: "*",
-        element: <HomePage />,
+        element: <NotFound />,
       },
     ],
   },

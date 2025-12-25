@@ -1,19 +1,17 @@
-import { useState } from "react";
-import { useRouteLoaderData } from "react-router-dom";
-import { 
-    Accordion, 
-    AccordionDetails, 
-    AccordionSummary, 
-    Avatar, 
-    Box, 
-    Stack, 
+import { useEffect, useRef, useState } from "react";
+import { useLoaderData, useRouteLoaderData } from "react-router-dom";
+import {
+    Accordion,
+    AccordionDetails,
+    AccordionSummary,
+    Avatar,
+    Box,
+    Stack,
     Typography,
     Dialog,
     DialogContent,
     DialogTitle,
     IconButton,
-    Card,
-    CardContent,
     Fab
 } from "@mui/material";
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
@@ -27,22 +25,41 @@ import AddStatus from "./addStatus";
 import AddPriority from "./addPriority";
 import AddUser from "./addUser";
 import ShowUsers from "./showUsers";
-
-export interface User {
-    id: number
-    name: string
-    email: string
-    role: string
-    created_at: string
-    password: string
-}
+import { useDispatch, useSelector } from "react-redux";
+import type { RootState } from "../../../store/store";
+import { getPrority, getStatus } from "../../../service/ticketService";
+import { setPriorities, setStatuses } from "../../../store/dataSlice";
+import type { Ticket, User } from "../../../types";
 
 const DashboardAd = () => {
+    const { tickets } = useLoaderData() as { tickets: Ticket[] };
     const users: User[] = useRouteLoaderData("dashboardChild") as User[];
     const [openStatus, setOpenStatus] = useState(false);
     const [openPriority, setOpenPriority] = useState(false);
     const [openUser, setOpenUser] = useState(false);
     const [openAllUsers, setOpenAllUsers] = useState(false);
+    const dispatch = useDispatch();
+    const statuses = useSelector((state: RootState) => state.data.statuses);
+    const priorities = useSelector((state: RootState) => state.data.priorities);
+    const isInitialized = useRef(false);
+    useEffect(() => {
+        if (isInitialized.current)
+            return;
+
+        isInitialized.current = true;
+        const loadData = async () => {
+            if (statuses.length === 0) {
+                const statusData = await getStatus();
+                dispatch(setStatuses(statusData));
+            }
+            if (priorities.length === 0) {
+                const priorityData = await getPrority();
+                dispatch(setPriorities(priorityData));
+            }
+        };
+
+        loadData();
+    }, []);
 
     return (
         <Box sx={{ p: 3 }}>
@@ -92,8 +109,8 @@ const DashboardAd = () => {
                 </Fab>
             </Stack>
 
-            <Dialog 
-                open={openStatus} 
+            <Dialog
+                open={openStatus}
                 onClose={() => setOpenStatus(false)}
                 maxWidth="sm"
                 fullWidth
@@ -113,8 +130,8 @@ const DashboardAd = () => {
                 </DialogContent>
             </Dialog>
 
-            <Dialog 
-                open={openPriority} 
+            <Dialog
+                open={openPriority}
                 onClose={() => setOpenPriority(false)}
                 maxWidth="sm"
                 fullWidth
@@ -134,8 +151,8 @@ const DashboardAd = () => {
                 </DialogContent>
             </Dialog>
 
-            <Dialog 
-                open={openUser} 
+            <Dialog
+                open={openUser}
                 onClose={() => setOpenUser(false)}
                 maxWidth="sm"
                 fullWidth
@@ -155,8 +172,8 @@ const DashboardAd = () => {
                 </DialogContent>
             </Dialog>
 
-            <Dialog 
-                open={openAllUsers} 
+            <Dialog
+                open={openAllUsers}
                 onClose={() => setOpenAllUsers(false)}
                 maxWidth="md"
                 fullWidth
@@ -208,7 +225,7 @@ const DashboardAd = () => {
                             </Stack>
                         </AccordionSummary>
                         <AccordionDetails>
-                            <GetTicketsByID userId={user.id} users={users} />
+                            <GetTicketsByID userId={user.id} tickets={tickets} />
                         </AccordionDetails>
                     </Accordion>
                 ))

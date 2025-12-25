@@ -1,5 +1,5 @@
 import { Alert, Box, Button, Card, CardActions, CardContent, Chip, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography } from "@mui/material";
-import type { Ticket } from "./showTickets";
+import type { Ticket } from "../../types";
 import UpdatePriority from "./admin/updatePriority";
 import SetAssignedTo from "./admin/setAssignedTo";
 import UpdateStatus from "./updateStatus";
@@ -12,13 +12,13 @@ import DeleteTicketBt from "./admin/deleteTicketBt";
 import EditIcon from '@mui/icons-material/Edit';
 import { useState } from "react";
 import { getColorByName } from "../../utils/colorHelper";
+import React from "react";
 
-
-interface CreateTicketsprop {
-    tickets: Ticket[],
+interface CreateTicketsProps {
+  tickets: Ticket[];
 }
 
-const CreateTickets: React.FC<CreateTicketsprop> = (params: CreateTicketsprop) => {
+const CreateTickets: React.FC<CreateTicketsProps> = (params: CreateTicketsProps) => {
     const { user } = useSelector((state: RootState) => state.auth)
     const navigate = useNavigate()
     const [openDialog, setOpenDialog] = useState<number | null>(null);
@@ -26,7 +26,7 @@ const CreateTickets: React.FC<CreateTicketsprop> = (params: CreateTicketsprop) =
     return (
         <>
             {params.tickets.map((ticket: Ticket) =>
-                <>
+                <React.Fragment key={ticket.id}>
                     <Card
                         key={ticket.id}
                         sx={{
@@ -193,7 +193,8 @@ const CreateTickets: React.FC<CreateTicketsprop> = (params: CreateTicketsprop) =
                             </Button>
                         </Box>
                     </Dialog>
-                </>
+                
+                </React.Fragment >
             )}
         </>
     )

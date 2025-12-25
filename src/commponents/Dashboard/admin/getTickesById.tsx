@@ -1,19 +1,24 @@
-import { useLoaderData } from "react-router-dom";
-import type { Ticket } from "../showTickets";
+import type { Ticket } from "../../../types";
 import CreateTickets from "../createTickets";
-import type { User } from "./dashboard_ad";
-interface GetTicketsByIDprop {
-    userId: Number,
-    users:User[]
+
+interface GetTicketsByIDProps {
+  userId: number;
+  tickets: Ticket[];
 }
 
 
-const GetTicketsByID: React.FC<GetTicketsByIDprop> = (params: GetTicketsByIDprop) => {
-    const tickets: Ticket[] = useLoaderData() as Ticket[];
-    const tickets_byId = tickets.filter((ticket: Ticket) => ticket.created_by === params.userId)
+const GetTicketsByID: React.FC<GetTicketsByIDProps> = (params: GetTicketsByIDProps) => {
+    if (!params.tickets || !Array.isArray(params.tickets)) {
+        return <div>No tickets available</div>;
+    }
+
+    const tickets_byId = params.tickets.filter(
+        (ticket: Ticket) => ticket.created_by === params.userId
+    )
+
     return (
         <>
-            <CreateTickets tickets={tickets_byId} ></CreateTickets>
+            <CreateTickets tickets={tickets_byId} />
         </>
     )
 }

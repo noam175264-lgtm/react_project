@@ -8,32 +8,9 @@ import SubjectIcon from '@mui/icons-material/Subject';
 import DescriptionIcon from '@mui/icons-material/Description';
 import ShowTickets from "../showTickets";
 import CreateTicketDialog from "./createTicketDialog";
-
-export interface Ticket {
-    subject: string;
-    description: string;
-    
-}
+import type { TicketFormInput } from "../../../types";
 
 const DashboardC = () => {
-    const [open, setOpen] = useState(false);
-    const fetcher=useFetcher();
-    const { control, handleSubmit, formState: { errors } } = useForm<Ticket>({
-        defaultValues: {
-            subject: "",
-            description: ""
-        },
-    })
-    const onSubmit = (data: Ticket) => {
-        console.log(data);
-        setOpen(false);
-        const formData = new FormData();
-        formData.append("subject", data.subject);
-        formData.append("description", data.description);
-        fetcher.submit(formData, { method: "post" });
-
-    };
-
 
     return (
         <div>

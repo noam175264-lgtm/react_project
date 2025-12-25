@@ -6,13 +6,9 @@ import { Button, Typography, Stack, Chip, Box, Divider, Paper } from "@mui/mater
 import Input from "../../inputs";
 import SourceIcon from '@mui/icons-material/Source';
 import { useForm } from "react-hook-form";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { showLoading, closeAlert, showSuccess, showError } from "../../../utils/sweetAlertConfig";
-
-interface Priority {
-    id: Number,
-    name: string
-}
+import type { Priority } from "../../../types";
 
 interface AddPriorityProps {
     onClose?: () => void;
@@ -20,43 +16,43 @@ interface AddPriorityProps {
 
 const AddPriority = ({ onClose }: AddPriorityProps) => {
     const priorities = useSelector((state: RootState) => state.data.priorities)
-    const [prioritiesState, setPrioritiesState] = useState<Priority[]>([])
-    
-    useEffect(() => {
-        setPrioritiesState(priorities);
-    }, [priorities]);
-    
     const fetcher = useFetcher()
     const dispatch = useDispatch()
-    
+
     const { control, handleSubmit, formState: { errors }, reset } = useForm<Priority>({
         defaultValues: {
-            id: "",
+            id: 0,
             name: ""
         },
     })
-    
+
     const onSubmit = async (data: Priority) => {
         try {
             showLoading('Adding priority...', 'Please wait');
             const formData = new FormData()
-            console.log("name ", data.name);
             formData.append("name", data.name)
-            setPrioritiesState([...prioritiesState, { id: priorities.length + 1, name: data.name as string }])
-            fetcher.submit(formData, { method: "post", action: "/addPriority" });
-            dispatch(setPriorities([...priorities, { id: priorities.length + 1, name: data.name as string }]))
-            
-            closeAlert();
-            showSuccess('Priority added successfully!', 'Good job!');
-            
-            reset();
-            if (onClose) onClose();
+            const response = await fetcher.submit(formData, { method: "post", action: "/addPriority" });
+
         } catch (error) {
             closeAlert();
             showError('Failed to add priority. Please try again.', 'Oops...');
         }
     }
-    
+    useEffect(() => {
+        if (fetcher.state === "idle" && fetcher.data) {
+            closeAlert();
+
+            if (fetcher.data?.id) {
+                dispatch(setPriorities([...priorities, fetcher.data]));
+                showSuccess('Priority added successfully!', 'Good job!');
+            } else if (fetcher.data?.error) {
+                showError(fetcher.data.error, 'Oops...');
+            }
+            reset();
+            if (onClose) onClose();
+        }
+    }, [fetcher.state, fetcher.data]);
+
     return (
         <Box sx={{ py: 2 }}>
             <Paper elevation={0} sx={{ p: 2, mb: 3, bgcolor: 'grey.50', borderRadius: 2 }}>
@@ -64,11 +60,11 @@ const AddPriority = ({ onClose }: AddPriorityProps) => {
                     Existing Priorities
                 </Typography>
                 <Stack direction="row" spacing={1} flexWrap="wrap" useFlexGap>
-                    {prioritiesState.map((p: Priority, index) => (
-                        <Chip 
+                    {priorities.map((p: Priority, index) => (
+                        <Chip
                             key={index}
-                            label={p.name} 
-                            color="secondary" 
+                            label={p.name}
+                            color="secondary"
                             variant="outlined"
                             size="small"
                         />
@@ -83,7 +79,7 @@ const AddPriority = ({ onClose }: AddPriorityProps) => {
                     <Typography variant="subtitle1" fontWeight={600}>
                         Add New Priority
                     </Typography>
-                    
+
                     <Input
                         name="name"
                         type="string"
@@ -92,7 +88,7 @@ const AddPriority = ({ onClose }: AddPriorityProps) => {
                         control={control}
                         errors={errors}
                     />
-                    
+
                     <Button
                         type="submit"
                         variant="contained"
