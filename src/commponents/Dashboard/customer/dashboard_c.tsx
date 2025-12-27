@@ -1,23 +1,18 @@
-import { Outlet, useFetcher } from "react-router-dom";
-import { Button, Dialog, DialogActions, DialogContent, DialogTitle } from "@mui/material";
-import AddIcon from '@mui/icons-material/Add';
-import Input from "../../inputs";
-import { useForm, type SubmitHandler } from "react-hook-form";
-import { useState } from "react";
-import SubjectIcon from '@mui/icons-material/Subject';
-import DescriptionIcon from '@mui/icons-material/Description';
-import ShowTickets from "../showTickets";
+
+import { Box, Container } from "@mui/material";
+import ShowTicketsBt from "../showTicketsBt";
 import CreateTicketDialog from "./createTicketDialog";
-import type { TicketFormInput } from "../../../types";
 
 const DashboardC = () => {
 
     return (
         <div>
-            <h1>Customer Dashboard</h1>
-            <CreateTicketDialog/>
-            <ShowTickets users={[]}/>
-
+            <Container maxWidth="lg" sx={{ py: 4 }}>
+                <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', flexWrap: 'wrap' }}>
+                    <CreateTicketDialog/>
+                    <ShowTicketsBt/>
+                </Box>
+            </Container>
         </div>
     );
 }

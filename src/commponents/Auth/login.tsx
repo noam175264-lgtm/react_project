@@ -34,9 +34,6 @@ const Login: React.FC = () => {
         localStorage.setItem('token', token);
         localStorage.setItem('user', JSON.stringify(user));
 
-        console.log(massege);
-        console.log("Login successful", user.role);
-
         closeAlert();
         showAlertSuccess('Login successful!', 'Welcome!');
 
@@ -58,7 +55,6 @@ const Login: React.FC = () => {
     catch (error) {
       closeAlert();
       showError("Login failed! Try again", "Oops...");
-      console.log("Login failed! try again");
     }
   }
 

@@ -23,12 +23,10 @@ const FooterExpanded = () => {
         >
             <Container maxWidth="lg">
                 <Stack spacing={3}>
-                    {/* Logo Section */}
                     <Box sx={{ display: 'flex', justifyContent: 'center' }}>
                         <img src={logo} alt="Logo" style={{ height: "120px" }} />
                     </Box>
 
-                    {/* Navigation Links */}
                     <Stack
                         direction="row"
                         justifyContent="center"
@@ -74,7 +72,6 @@ const FooterExpanded = () => {
                         )}
                     </Stack>
 
-                    {/* Secondary Links */}
                     <Stack
                         direction="row"
                         justifyContent="center"
@@ -116,7 +113,6 @@ const FooterExpanded = () => {
                         </MuiLink>
                     </Stack>
 
-                    {/* Copyright */}
                     <Typography
                         variant="body2"
                         align="center"

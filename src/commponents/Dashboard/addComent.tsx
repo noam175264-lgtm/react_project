@@ -21,7 +21,6 @@ const AddComment = () => {
         },
     })
     const onSubmit = (data: Comment) => {
-        console.log(data);
         setOpen(false);
         showLoading('Adding comment...', 'Please wait');
         const formData = new FormData();

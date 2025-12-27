@@ -1,4 +1,4 @@
-import { Alert, Box, Button, Card, CardActions, CardContent, Chip, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography } from "@mui/material";
+import { Alert, Box, Button, Card, CardActions, CardContent, Chip, Dialog, DialogContent, DialogTitle, Grid, IconButton, Typography, Container } from "@mui/material";
 import type { Ticket } from "../../types";
 import UpdatePriority from "./admin/updatePriority";
 import SetAssignedTo from "./admin/setAssignedTo";
@@ -10,21 +10,47 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
 import ChatBubbleOutlineIcon from '@mui/icons-material/ChatBubbleOutline';
 import DeleteTicketBt from "./admin/deleteTicketBt";
 import EditIcon from '@mui/icons-material/Edit';
+import ConfirmationNumberIcon from '@mui/icons-material/ConfirmationNumber';
 import { useState } from "react";
 import { getColorByName } from "../../utils/colorHelper";
 import React from "react";
 
 interface CreateTicketsProps {
-  tickets: Ticket[];
+    tickets: Ticket[];
 }
 
 const CreateTickets: React.FC<CreateTicketsProps> = (params: CreateTicketsProps) => {
     const { user } = useSelector((state: RootState) => state.auth)
     const navigate = useNavigate()
     const [openDialog, setOpenDialog] = useState<number | null>(null);
-
+    if (!params.tickets || params.tickets.length === 0) {
+        return (
+            <div>
+                <p>No tickets found or loading failed.</p>
+            </div>
+        );
+    }
     return (
         <>
+            <Container maxWidth="lg" sx={{ py: 4 }}>
+                <Box sx={{ display: 'flex', alignItems: 'center', gap: 2, mb: 4 }}>
+                    <ConfirmationNumberIcon sx={{ fontSize: 40, color: 'primary.main' }} />
+                    <Typography
+                        variant="h3"
+                        component="h1"
+                        sx={{
+                            fontWeight: 700,
+                            background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+                            WebkitBackgroundClip: 'text',
+                            WebkitTextFillColor: 'transparent',
+                            backgroundClip: 'text'
+                        }}
+                    >
+                        Tickets Management
+                    </Typography>
+                </Box>
+            </Container>
+
             {params.tickets.map((ticket: Ticket) =>
                 <React.Fragment key={ticket.id}>
                     <Card
@@ -131,7 +157,6 @@ const CreateTickets: React.FC<CreateTicketsProps> = (params: CreateTicketsProps)
                         </CardActions>
                     </Card>
 
-                    {/* Admin Edit Dialog */}
                     <Dialog
                         open={openDialog === ticket.id}
                         onClose={() => setOpenDialog(null)}
@@ -193,7 +218,7 @@ const CreateTickets: React.FC<CreateTicketsProps> = (params: CreateTicketsProps)
                             </Button>
                         </Box>
                     </Dialog>
-                
+
                 </React.Fragment >
             )}
         </>

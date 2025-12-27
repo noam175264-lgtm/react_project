@@ -1,6 +1,5 @@
 import Swal from 'sweetalert2';
 
-// הודעת הצלחה - כמו בתמונה הראשונה
 export const showSuccess = (message: string, title: string = 'Good job!') => {
   return Swal.fire({
     icon: 'success',
@@ -27,7 +26,6 @@ export const showSuccess = (message: string, title: string = 'Good job!') => {
   });
 };
 
-// הודעת שגיאה - כמו בתמונה השנייה
 export const showError = (message: string, title: string = 'Oops...') => {
   return Swal.fire({
     icon: 'error',
@@ -56,7 +54,7 @@ export const showError = (message: string, title: string = 'Oops...') => {
     heightAuto: false
   });
 };
-// אישור מחיקה
+
 export const confirmDelete = (itemName: string = 'this item') => {
   return Swal.fire({
     title: 'Are you sure?',
@@ -82,7 +80,6 @@ export const confirmDelete = (itemName: string = 'this item') => {
   });
 };
 
-// Toast קטן
 export const Toast = Swal.mixin({
   toast: true,
   position: 'top-end',
@@ -115,7 +112,6 @@ export const showToastError = (message: string) => {
   });
 };
 
-// הודעת טעינה
 export const showLoading = (message: string = 'Loading...', title: string = 'Please wait') => {
   return Swal.fire({
     icon: 'info',
@@ -139,12 +135,10 @@ export const showLoading = (message: string = 'Loading...', title: string = 'Ple
   });
 };
 
-// עדכון האלרט הנוכחי
 export const updateAlert = (options: any) => {
   return Swal.update(options);
 };
 
-// סגירת האלרט
 export const closeAlert = () => {
   return Swal.close();
 };

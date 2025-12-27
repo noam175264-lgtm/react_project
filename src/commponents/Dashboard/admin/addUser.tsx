@@ -55,8 +55,6 @@ const AddUser = ({ onClose }: AddUserProps) => {
         formData.append("email", data.email);
         formData.append("password", data.password);
         formData.append("role", data.role);
-
-        console.log('📤 Submitting form');
         fetcher.submit(formData, { method: "post", action: "/addUser" });
     };
 

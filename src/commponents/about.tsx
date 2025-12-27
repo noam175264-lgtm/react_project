@@ -83,7 +83,6 @@ const About = () => {
   return (
     <Box sx={{ bgcolor: 'background.default', minHeight: '100vh', py: 8 }}>
       <Container maxWidth="lg">
-        {/* Hero Section */}
         <Box sx={{ textAlign: 'center', mb: 8 }}>
           <Avatar
             sx={{
@@ -129,7 +128,6 @@ const About = () => {
           </Stack>
         </Box>
 
-        {/* Description Section */}
         <Paper elevation={0} sx={{ p: 4, mb: 6, borderRadius: 3, bgcolor: 'background.paper' }}>
           <Typography variant="h4" fontWeight={600} gutterBottom textAlign="center">
             What is HelpDesk?
@@ -143,7 +141,6 @@ const About = () => {
           </Typography>
         </Paper>
 
-        {/* Features Section */}
         <Box sx={{ mb: 8 }}>
           <Typography variant="h4" fontWeight={600} gutterBottom textAlign="center" sx={{ mb: 4 }}>
             Key Features
@@ -195,7 +192,6 @@ const About = () => {
           </Grid>
         </Box>
 
-        {/* User Roles Section */}
         <Box sx={{ mb: 8 }}>
           <Typography variant="h4" fontWeight={600} gutterBottom textAlign="center" sx={{ mb: 4 }}>
             User Roles
@@ -245,7 +241,6 @@ const About = () => {
           </Grid>
         </Box>
 
-        {/* Technology Stack */}
         <Paper 
           elevation={0}
           sx={{ 

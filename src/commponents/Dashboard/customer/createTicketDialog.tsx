@@ -62,10 +62,20 @@ const CreateTicketDialog: React.FC = () => {
         onClick={() => setOpen(true)} 
         startIcon={<AddIcon />}
         sx={{ 
-          textTransform: 'none',
+          background: 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)',
+          color: 'white',
+          fontWeight: 700,
+          fontSize: 18,
+          textTransform: 'capitalize',
           borderRadius: 2,
-          px: 3,
-          py: 1
+          px: 4,
+          py: 2,
+          '&:hover': {
+            background: 'linear-gradient(135deg, #764ba2 0%, #667eea 100%)',
+            transform: 'translateY(-2px)',
+            boxShadow: '0 8px 16px rgba(102, 126, 234, 0.4)'
+          },
+          transition: 'all 0.3s ease'
         }}
       >
         New Ticket

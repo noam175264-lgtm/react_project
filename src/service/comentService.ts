@@ -14,6 +14,5 @@ export const addCommentToTicket = async ({params,request}:ActionFunctionArgs) =>
     const response = await api.post(`/tickets/${ticketId}/comments`, {
         content
     });
-    console.log(response.data)
     return response.data;
 }

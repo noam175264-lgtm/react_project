@@ -1,11 +1,9 @@
-import ShowTickets from "../showTickets";
-
-
+import ShowTicketsBt from "../showTicketsBt";
 const DashboardAg=()=>{
     return(
         <>
             <h1>Agent Dashboard</h1>
-            <ShowTickets users={[]}/>
+            <ShowTicketsBt/>
         </>
     )
 }

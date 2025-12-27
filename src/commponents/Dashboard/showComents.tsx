@@ -34,7 +34,6 @@ export const ShowComments = () => {
           flexDirection: 'column' 
         }}
       >
-        {/* Header */}
         <Box sx={{ display: 'flex', alignItems: 'center', mb: 3 }}>
           <IconButton onClick={() => navigate(-1)}>
             <ArrowBackIcon />
@@ -44,7 +43,6 @@ export const ShowComments = () => {
           </Typography>
         </Box>
 
-        {/* Chat Container - ללא גלגלת */}
         <Box 
           sx={{ 
             flex: 1,
@@ -54,7 +52,6 @@ export const ShowComments = () => {
             gap: 2,
             pb: 2,
             px: 1,
-            // 👇 הסרת הגלגלת
             '&::-webkit-scrollbar': {
               display: 'none'
             },
@@ -75,7 +72,6 @@ export const ShowComments = () => {
                   gap: 1
                 }}
               >
-                {/* Avatar - רק בצד שמאל (Agent/לא שלי) */}
                 {!isMine && (
                   <Avatar 
                     sx={{ 
@@ -88,9 +84,7 @@ export const ShowComments = () => {
                   </Avatar>
                 )}
 
-                {/* Message Bubble */}
                 <Box sx={{ maxWidth: '70%' }}>
-                  {/* שם המחבר - רק למי שזה לא שלי */}
                   {!isMine && (
                     <Typography 
                       variant="caption" 
@@ -101,7 +95,6 @@ export const ShowComments = () => {
                     </Typography>
                   )}
 
-                  {/* בועת הודעה */}
                   <Paper
                     elevation={1}
                     sx={{
@@ -121,7 +114,6 @@ export const ShowComments = () => {
                       {comment.content}
                     </Typography>
                     
-                    {/* זמן */}
                     <Typography 
                       variant="caption" 
                       sx={{ 
@@ -140,7 +132,6 @@ export const ShowComments = () => {
                   </Paper>
                 </Box>
 
-                {/* Avatar - בצד ימין (שלי) */}
                 {isMine && (
                   <Avatar 
                     sx={{ 

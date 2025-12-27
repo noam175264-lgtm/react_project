@@ -13,6 +13,8 @@ import DashboardAd from "./Dashboard/admin/dashboard_ad";
 import { addUser } from "../service/userService";
 import About from "./about";
 import NotFound from "../NotFound";
+import ShowTickets from "./Dashboard/showTickets";
+import Dashboard from "./Dashboard/dashboard";
 export const Routes = createBrowserRouter([
   {
     path: "/",
@@ -36,15 +38,7 @@ export const Routes = createBrowserRouter([
       },
       {
         path: "/dashboard",
-        element: < Role roles={['customer']} > <DashboardC /></Role >,
-      },
-      {
-        path: "/dashboard",
-        element: < Role roles={['agent']} > <DashboardAg /></Role >,
-      },
-      {
-        path: "/dashboard",
-        element: < Role roles={['admin']} > <DashboardAd /></Role >,
+        element: < Role roles={['customer','agent','admin']} > <Dashboard /></Role >,
       },
       {
         path: "/about",
@@ -54,8 +48,12 @@ export const Routes = createBrowserRouter([
       {
         path: "dashboard_c",
         element: <Role roles={['customer']}><DashboardC /></Role>,
-        loader: getAllTickets,
         action: createTicketAction,
+      },
+       {
+        path: "/tickets",
+        element: <ShowTickets />,
+        loader: getAllTickets,
       },
       {
         path: "showComents/:ticketId",
@@ -66,7 +64,6 @@ export const Routes = createBrowserRouter([
       {
         path: "dashboard_ag",
         element: <Role roles={['agent']}><DashboardAg /></Role>,
-        loader: getAllTickets,
       },
       {
         id: "dashboardRoot",
@@ -122,10 +119,6 @@ export const Routes = createBrowserRouter([
         path: 'addUser',
         element: <Role roles={['admin']}></Role>,
         action: addUser
-      },
-      {
-        path: 'systemManagment',
-        element: <Role roles={['admin']}></Role>,
       },
       {
         path: "*",
